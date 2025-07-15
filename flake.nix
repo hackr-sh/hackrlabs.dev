@@ -32,11 +32,21 @@
         apps = {
           dev = let 
             dev = pkgs.writeShellScript "dev" ''
+              nix run .#install
               ${pkgs.pnpm}/bin/pnpm dev
             '';
           in {
             type = "app";
             program = "${dev}";
+          };
+
+          install = let
+            install = pkgs.writeShellScript "install" ''
+              ${pkgs.pnpm}/bin/pnpm install
+            '';
+          in {
+            type = "app";
+            program = "${install}";
           };
         };
       }
